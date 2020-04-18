@@ -4,7 +4,7 @@
 # Copyright (c) 2020 Michael E. Cotterell
 # See LICENSE
 
-JDKSWAP_VERSION=0.2
+JDKSWAP_VERSION=0.3
 INSTALL_DIR=~/.jdkswap.d
 CONFIG=~/.jdkswap
 
@@ -70,15 +70,15 @@ function install_bash_profile() {
     init_jdkswap >> ~/.bash_profile
 } # install_bash_profile
 
-function install_jdk() {
+function swap_to_jdk() {
     [[ $# -eq 1 ]] && JDK="$1" || JDK="$JDKSWAP_DEFAULT_JDK"
     [[ -z ${JDKSWAP_JDKS[$JDK]} ]] && err_echo "Invalid JDK Name: $JDK" && exit 1
     [[ ! -d $INSTALL_DIR ]] && NEWSETUP=0 || NEWSETUP=1
-    out_echo _bold "Installing $JDK..."
+    out_echo _bold "Swapping to $JDK..."
     install_jdkswap
     install_symlink $JDK
     install_bash_profile
-    out_echo "Installation complete!"
+    out_echo "Swapping complete!"
     [[ $NEWSETUP -eq 0 ]] && out_echo _bold "Please logout, then log back in."
 } # install_jdk
 
@@ -90,26 +90,26 @@ function list_jdks() {
 } # list_jdks
 
 function current_jdk() {
-    [[ ! -d $INSTALL_DIR ]] && err_echo _bold "No JDK installed using JDKSwap!" && exit 1
+    [[ ! -d $INSTALL_DIR ]] && err_echo _bold "'jdkswap.sh --swapto' not run yet!" && exit 1
     CURRENT=$(readlink -f $INSTALL_DIR/jdk)
-    out_echo _bold "Current JDK installed at $INSTALL_DIR/jdk..."
+    out_echo _bold "Current JDK..."
     for JDK in "${!JDKSWAP_JDKS[@]}"; do
         [[ $CURRENT == ${JDKSWAP_JDKS[$JDK]} ]] && out_echo "$JDK -> ${JDKSWAP_JDKS[$JDK]}" && break
     done
 } # current_jdk
 
 function usage() {
-    out_echo _bold "JDKSwap $JDKSWAP_VERSION by Dr. Cotterell"
+    out_echo _bold "jdkswap $JDKSWAP_VERSION by Dr. Cotterell"
     echo "Usage: jdkswap.sh [OPTION]"
     echo "Easily swap between available JDKs."
     echo " --help               Display this help message."
     echo " --list               List available JDKs."
     echo " --current            Display current JDK."
-    echo " --install jdkname    Install jdkname."
+    echo " --swapto jdkname     Swap to jdkname."
 } # usage
 
 case $1 in
-    --install) shift && install_jdk $1;;
+    --swapto)  shift && swap_to_jdk $1;;
     --list)    shift && list_jdks;;
     --current) shift && current_jdk;;
     --init)    shift && init_jdkswap;;
