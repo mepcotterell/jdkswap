@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# JDKSwap - simple script to swap JDK installations.
+# Copyright (c) 2020 Michael E. Cotterell
+# See LICENSE
+
 JDKSWAP_VERSION=0.2
 INSTALL_DIR=~/.jdkswap
 
