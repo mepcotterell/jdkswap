@@ -101,7 +101,7 @@ function current_jdk() {
 function usage() {
     out_echo _bold "jdkswap $JDKSWAP_VERSION by Dr. Cotterell"
     echo "Usage: jdkswap.sh [OPTION]"
-    echo "Easily swap between available JDKs."
+    echo "Simple script to swap between JDK installations."
     echo " --help               Display this help message."
     echo " --list               List available JDKs."
     echo " --current            Display current JDK."

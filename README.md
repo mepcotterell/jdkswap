@@ -1,5 +1,5 @@
 # jdkswap
-Simple script to swap JDK installations.
+Simple script to swap between JDK installations.
 
 ## Limitations
 
@@ -37,4 +37,14 @@ Simple script to swap JDK installations.
 
    ```
    $ ./jdkswap.sh --help
+   ```
+
+   ```
+   jdkswap 0.3 by Dr. Cotterell
+   Usage: jdkswap.sh [OPTION]
+   Simple script to swap between JDK installations.
+    --help               Display this help message.
+    --list               List available JDKs.
+    --current            Display current JDK.
+    --swapto jdkname     Swap to jdkname.
    ```
