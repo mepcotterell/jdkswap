@@ -5,7 +5,8 @@
 # See LICENSE
 
 JDKSWAP_VERSION=0.2
-INSTALL_DIR=~/.jdkswap
+INSTALL_DIR=~/.jdkswap.d
+CONFIG=~/.jdkswap
 
 BOLD=$(tput bold)
 NORM=$(tput sgr0)
@@ -42,15 +43,9 @@ function require_bash_ge() {
 } # require_bash_ge
 
 require_bash_ge 4
-
-# TODO switch install dir to .jdkswap.d and use .jdkswap as config file
-declare -A JDKS=(
-    ["oracle:jdk-8.0.251"]="/path/to/oracle/jdk1.8.0_251"
-    ["oracle:jdk-14.0.1"]="/path/to/oracle/jdk-14.0.1"
-    ["openjdk:jdk-11.0.2"]="/path/to/openjdk/jdk-11.0.2"
-)
-
-DEFAULT_JDK="oracle:jdk-8.0.251"
+[[ ! -x $CONFIG ]] && source $CONFIG || { err_echo "Missing $CONFIG"; exit 1; }
+[[ ! ${#JDKSWAP_JDKS[@]} ]] && err_echo "JDKSWAP_JDKS is not set" && exit 1
+[[ ! ${JDKSWAP_DEFAULT_JDK+x} ]] && err_echo "JDKSWAP_DEFAULT_JDK is not set" && exit 1
 
 function init_jdkswap() {
     out_echo "# $INSTALL_DIR"
@@ -65,7 +60,7 @@ function install_jdkswap() {
 
 function install_symlink() {
     JDK="$1"
-    ln -s ${JDKS[$JDK]} $INSTALL_DIR/jdk
+    ln -s ${JDKSWAP_JDKS[$JDK]} $INSTALL_DIR/jdk
 } # install_symlink
 
 function install_bash_profile() {
@@ -76,8 +71,8 @@ function install_bash_profile() {
 } # install_bash_profile
 
 function install_jdk() {
-    [[ $# -eq 1 ]] && JDK="$1" || JDK="$DEFAULT_JDK"
-    [[ -z ${JDKS[$JDK]} ]] && err_echo "Invalid JDK Name: $JDK" && exit 1
+    [[ $# -eq 1 ]] && JDK="$1" || JDK="$JDKSWAP_DEFAULT_JDK"
+    [[ -z ${JDKSWAP_JDKS[$JDK]} ]] && err_echo "Invalid JDK Name: $JDK" && exit 1
     [[ ! -d $INSTALL_DIR ]] && NEWSETUP=0 || NEWSETUP=1
     out_echo _bold "Installing $JDK..."
     install_jdkswap
@@ -89,8 +84,8 @@ function install_jdk() {
 
 function list_jdks() {
     out_echo _bold "Available JDKs..."
-    for JDK in "${!JDKS[@]}"; do
-        out_echo "$JDK -> ${JDKS[$JDK]}"
+    for JDK in "${!JDKSWAP_JDKS[@]}"; do
+        out_echo "$JDK -> ${JDKSWAP_JDKS[$JDK]}"
     done | sort -rg -k1
 } # list_jdks
 
@@ -98,8 +93,8 @@ function current_jdk() {
     [[ ! -d $INSTALL_DIR ]] && err_echo _bold "No JDK installed using JDKSwap!" && exit 1
     CURRENT=$(readlink -f $INSTALL_DIR/jdk)
     out_echo _bold "Current JDK installed at $INSTALL_DIR/jdk..."
-    for JDK in "${!JDKS[@]}"; do
-        [[ $CURRENT == ${JDKS[$JDK]} ]] && out_echo "$JDK -> ${JDKS[$JDK]}" && break
+    for JDK in "${!JDKSWAP_JDKS[@]}"; do
+        [[ $CURRENT == ${JDKSWAP_JDKS[$JDK]} ]] && out_echo "$JDK -> ${JDKSWAP_JDKS[$JDK]}" && break
     done
 } # current_jdk
 
