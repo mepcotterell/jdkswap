@@ -46,7 +46,7 @@ declare -A JDKS=(
     ["openjdk:jdk-11.0.2"]="/path/to/openjdk/jdk-11.0.2"
 )
 
-DEFAULT_JDK="oracle:jdk-8.0.192"
+DEFAULT_JDK="oracle:jdk-8.0.251"
 
 function init_jdkswap() {
     out_echo "# $INSTALL_DIR"
