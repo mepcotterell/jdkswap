@@ -5,14 +5,14 @@ Simple script to swap JDK installations.
 
 * Currently only supports **bash**.
 
-## Setup 
+## Setup
 
 1. Download the script:
 
    ```
    $ git clone git@github.com:mepcotterell/jdkswap.git
    ```
-   
+
 2. Create a `~/.jdkswap` configuration file. Here is an example:
 
    ```
@@ -24,13 +24,13 @@ Simple script to swap JDK installations.
 
    JDKSWAP_DEFAULT_JDK="oracle:jdk-8.0.251"
    ```
-   
-3. Install the default JDK:
+
+3. Swap to the default JDK:
 
    ```
-   $ ./jdkswap.sh --install
+   $ ./jdkswap.sh --swapto
    ```
-   
+
 ## Usage
 
 1. Use the `--help` option to see all the options:
@@ -38,5 +38,3 @@ Simple script to swap JDK installations.
    ```
    $ ./jdkswap.sh --help
    ```
-   
-   
