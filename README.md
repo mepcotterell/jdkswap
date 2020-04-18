@@ -1,5 +1,8 @@
 # jdkswap
-Simple script to swap between JDK installations.
+
+Simple script to swap between JDK installations. If users desire more options, then
+they are encouraged to consider [jenv](https://github.com/jenv/jenv) as an
+alternative.
 
 ## Limitations
 
