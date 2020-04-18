@@ -28,7 +28,15 @@ Simple script to swap JDK installations.
 3. Install the default JDK:
 
    ```
-   $ ./jdkswap --install
+   $ ./jdkswap.sh --install
    ```
    
 ## Usage
+
+1. Use the `--help` option to see all the options:
+
+   ```
+   $ ./jdkswap.sh --help
+   ```
+   
+   
